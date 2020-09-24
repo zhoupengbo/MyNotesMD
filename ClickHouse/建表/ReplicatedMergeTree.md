@@ -1,5 +1,5 @@
 ```sql
-CREATE TABLE table_name on cluster {cluster_name}
+CREATE TABLE table_name_local on cluster {cluster_name}
 (
     EventDate DateTime,
     CounterID UInt32,

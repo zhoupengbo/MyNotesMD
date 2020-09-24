@@ -7,7 +7,7 @@ CREATE TABLE table_name_all on cluster {cluster_name}
     CounterID UInt32,
     UserID UInt32,
     ver UInt16
-) Distributed('集群名称', '库名', '表名', '数据分布算法')
+) ENGINE = Distributed('集群名称', '库名', '表名', '数据分布算法')
 ```
 
 示例：
@@ -19,6 +19,6 @@ CREATE TABLE table_name_all on cluster perftest_3shards_2replicas
     CounterID UInt32,
     UserID UInt32,
     ver UInt16
-) Distributed('perftest_3shards_2replicas', 'test', 'table_name', rand())
+) ENGINE = Distributed('perftest_3shards_2replicas', 'test', 'table_name', rand())
 ```
 
