@@ -45,7 +45,6 @@ wget https://repo.yandex.ru/clickhouse/rpm/stable/x86_64/clickhouse-server-19.17
 ln -s /usr/bin/clickhouse /usr/bin/clickhouse-extract-from-config
 # cp clickhouse-odbc-bridge /usr/bin # 缺少这个
 ln -s /usr/bin/clickhouse /usr/bin/clickhouse-odbc-bridge # 试试
-chmod -R 777 /var/lock
 # 安装服务端客户端脚本
 rpm -ivh clickhouse-server-19.17.10.1-2.noarch.rpm --nodeps --force
 rpm -ivh clickhouse-client-19.17.10.1-2.noarch.rpm --nodeps --force
