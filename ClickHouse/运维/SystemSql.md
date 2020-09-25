@@ -9,5 +9,17 @@ LIMIT 10;
 
 -- system.clusters
 SELECT * FROM  system.clusters;
+
+-- 查看各个库表，占用的存储空间大小
+SELECT
+database,
+table,
+formatReadableSize ( sum( bytes ) ) AS size
+FROM
+system.parts
+WHERE
+active
+GROUP BY database,table
+ORDER BY sum( bytes ) DESC;
 ```
 
