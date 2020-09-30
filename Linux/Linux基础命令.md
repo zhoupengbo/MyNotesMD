@@ -1,20 +1,11 @@
 #### 1. 关闭SELinux
 
-###### 1.1 获取SELinux状态
-
 ```shell
+# 获取SELinux状态
 getenforce|sestatus|sestatus -v
-```
-
-###### 1.2 临时关闭
-
-```shell
+# 临时关闭
 setenforce 0
-```
-
-###### 1.3 永久关闭
-
-```shell
+# 永久关闭
 sed --follow-symlinks -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 ```
 
@@ -24,7 +15,7 @@ sed --follow-symlinks -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/c
 echo $LANG
 ```
 
-#### 3. 创建用户
+#### 3. 创建用户赋权
 
 ```shell
 groupadd zhoupb
@@ -93,5 +84,31 @@ rpm -e --nodeps xxx
 rpm -qpl xxx.rpm
 # 查看已安装rpm包
 rpm -qa | grep xxx
+```
+
+#### 11. 防火墙
+
+```shell
+# 检查状态
+systemctl status firewalld
+# 开启
+systemctl start firewalld
+# 关闭
+systemctl stop firewalld
+```
+
+#### 12. SSH 免密
+
+```shell
+# 生成秘钥
+ssh-keygen
+# 使用rsa算法进行加密
+ssh-keygen -t rsa
+# 最小化安装没有ssh-copy-id，需要安装
+yum  install  -y openssl-clients
+# 发送秘钥
+ssh-copy-id -i ~/.ssh/id_rsa.pub user@server
+# 指定端口
+ssh-copy-id -i ~/.ssh/id_rsa.pub "-p 10022 user@server"
 ```
 
