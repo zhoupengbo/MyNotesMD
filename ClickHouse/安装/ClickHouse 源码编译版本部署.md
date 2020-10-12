@@ -50,6 +50,16 @@ rpm -ivh clickhouse-server-19.17.10.1-2.noarch.rpm --nodeps --force
 rpm -ivh clickhouse-client-19.17.10.1-2.noarch.rpm --nodeps --force
 ```
 
+#### 个性化配置
+
+```shell
+# 修改数据/日志目录
+mkdir + chown
+# 配置hdfs高可用
+# 集群模式配置
+# 网络配置
+```
+
 #### 登录退出
 
 ```bash
