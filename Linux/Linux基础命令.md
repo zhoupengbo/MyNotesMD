@@ -112,3 +112,9 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub user@server
 ssh-copy-id -i ~/.ssh/id_rsa.pub "-p 10022 user@server"
 ```
 
+#### 13. 临时修改主机名
+
+```shell
+hostname test.zpb.com
+```
+
