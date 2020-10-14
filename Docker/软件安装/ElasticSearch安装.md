@@ -7,7 +7,7 @@ $ docker pull elasticsearch:7.8.1
 $ docker network create esnetwork
 # 运行
 $ docker run -d \
-						 --name elasticsearch \
+					 --name elasticsearch \
   					 --net esnetwork \
   					 -p 9200:9200 \
   					 -p 9300:9300 \
