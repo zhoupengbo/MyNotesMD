@@ -13,6 +13,6 @@
 - Command D 复制当前行代码到下一行
 - Command  option ⬅️➡️  向前向后查看代码
 - Command L 跳转第n行
-- Command delete 删除当前行
+- Command Y 删除当前行
 - Shift+F6 变量/类名重命名
 
