@@ -40,6 +40,7 @@ CREATE TABLE test.test_local
     `Year` UInt16
 )
 ENGINE = MergeTree()
+PARTITION BY toYYYYMMDD(FlightDate)
 ORDER BY (FlightDate, Year);
 
 -- 分布式创建
@@ -49,6 +50,7 @@ CREATE TABLE test.test_local ON cluster cluster02_no_replicas
     `Year` UInt16
 )
 ENGINE = MergeTree()
+PARTITION BY toYYYYMMDD(FlightDate)
 ORDER BY (FlightDate, Year);
 
 -- 创建分布式表
