@@ -11,7 +11,7 @@ CREATE TABLE `test` (
 
 ##### 2. 创建ClickHouse表
 
-```
+```sql
 # 测试
 CREATE TABLE test.test_mysql_table ( \
     `unique_id` Int8, \
