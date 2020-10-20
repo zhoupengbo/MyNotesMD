@@ -13,7 +13,7 @@ ORDER BY (CounterID, EventDate, intHash32(UserID))  -- 主键
 SETTINGS index_granularity = 8192 --索引粒度
 ```
 
-##### 事例：
+##### 示例：
 
 ```sql
 -- 创建本地表
