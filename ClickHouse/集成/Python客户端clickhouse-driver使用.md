@@ -1,6 +1,6 @@
 ##### 安装：
 
-```python
+```bash
 pip install clickhouse-driver
 ```
 
