@@ -29,7 +29,7 @@ ORDER BY (CounterID, EventDate, intHash32(UserID))
 TTL EventDate + INTERVAL 1 MONTH 
 SETTINGS 
     index_granularity = 8192, -- 索引粒度
-    merge_with_ttl_timeout=86400,  --单位：秒
+    -- merge_with_ttl_timeout=86400,  --单位：秒
     ttl_only_drop_parts=1 
 ```
 
