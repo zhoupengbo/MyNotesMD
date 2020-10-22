@@ -13,7 +13,27 @@ ORDER BY (CounterID, EventDate, intHash32(UserID))  -- 主键
 SETTINGS index_granularity = 8192 --索引粒度
 ```
 
-##### 示例：
+##### 示例1:
+
+```sql
+CREATE TABLE IF NOT EXISTS db.table_name_local on cluster cluster_2replicas
+(
+    EventDate DateTime, -- 时间字段
+    CounterID UInt32,
+    UserID UInt32,
+    ver UInt16
+) ENGINE = ReplicatedMergeTree('/clickhouse/tables/{layer}-{shard}/db.table_name', '{replica}') 
+PARTITION BY toYYYYMM(EventDate)
+ORDER BY (CounterID, EventDate, intHash32(UserID)) 
+-- 支持 SECOND MINUTE HOUR DAY WEEK MONTH QUARTER YEAR
+TTL EventDate + INTERVAL 1 MONTH 
+SETTINGS 
+    index_granularity = 8192, -- 索引粒度
+    merge_with_ttl_timeout=86400,  --单位：秒
+    ttl_only_drop_parts=1 
+```
+
+##### 示例2：
 
 ```sql
 -- 创建本地表
