@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS db.table_name_local on cluster cluster_2replicas
     UserID UInt32,
     ver UInt16
 ) ENGINE = ReplicatedMergeTree('/clickhouse/tables/{layer}-{shard}/db.table_name', '{replica}') 
-PARTITION BY toYYYYMM(EventDate)
+PARTITION BY toYYYYMMDD(EventDate)
 ORDER BY (CounterID, EventDate, intHash32(UserID)) 
 -- 支持 SECOND MINUTE HOUR DAY WEEK MONTH QUARTER YEAR
 TTL EventDate + INTERVAL 1 MONTH 
