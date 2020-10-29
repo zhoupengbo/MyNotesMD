@@ -21,5 +21,18 @@ WHERE
 active
 GROUP BY database,table
 ORDER BY sum( bytes ) DESC;
+
+-- 查询物化视图
+SELECT 
+    partition, 
+    name, 
+    rows, 
+    bytes_on_disk, 
+    modification_time, 
+    min_date, 
+    max_date, 
+    engine
+FROM system.parts
+WHERE (database = 'dw') AND (table = '.inner.main_site_minute_pv_uv')
 ```
 
