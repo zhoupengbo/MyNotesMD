@@ -77,6 +77,8 @@ CREATE TABLE IF NOT EXISTS db.table_name_local on cluster cluster_2replicas
 ) ENGINE = ReplicatedReplacingMergeTree('/clickhouse/tables/{layer}-{shard}/db.table_name', '{replica}') 
 PARTITION BY toYYYYMMDD(EventDate)
 ORDER BY (CounterID, EventDate, intHash32(UserID)) 
+-- 支持 SECOND MINUTE HOUR DAY WEEK MONTH QUARTER YEAR
+TTL EventDate + INTERVAL 1 MONTH 
 SETTINGS index_granularity = 8192,merge_with_ttl_timeout=86400  --单位：秒
 ```
 
@@ -92,6 +94,8 @@ CREATE TABLE IF NOT EXISTS db.table_name_local on cluster cluster_2replicas
 ) ENGINE = ReplicatedReplacingMergeTree('/clickhouse/tables/{layer}-{shard}/db.table_name', '{replica}') 
 PARTITION BY toYYYYMMDD(EventDate)
 ORDER BY (CounterID, EventDate, intHash32(UserID)) 
+-- 支持 SECOND MINUTE HOUR DAY WEEK MONTH QUARTER YEAR
+TTL EventDate + INTERVAL 1 MONTH 
 SETTINGS index_granularity = 8192,ttl_only_drop_parts=1 
 ```
 
