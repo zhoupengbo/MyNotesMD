@@ -11,7 +11,6 @@ INSERT INTO WatchLog_new VALUES ('2018-01-02', 2, 'hit', 3);
 
 CREATE TABLE WatchLog as WatchLog_old ENGINE=Merge(currentDatabase(), '^WatchLog');
 
-SELECT *
-FROM WatchLog
+SELECT * FROM WatchLog
 ```
 
