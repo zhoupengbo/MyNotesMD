@@ -118,3 +118,27 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub "-p 10022 user@server"
 hostname test.zpb.com
 ```
 
+#### 14. Top
+
+```shell
+# 按用户
+top -u root
+# 常用命令
+P：按%CPU使用率排行
+T：按MITE+排行
+M：按%MEM排行
+```
+
+#### 15. 排查进程中各线程占用内存情况
+
+```shell
+# 定位线程问题,查看进程有哪些线程
+ps p ${pid} -L -o pcpu,pmem,pid,tid,time,tname,cmd
+# 查看总共有多少线程
+ps p ${pid} -L -o pcpu,pmem,pid,tid,time,tname,cmd |wc -l
+# 打印堆栈信息
+jstack -l ${pid} > jstack.log
+# 参考
+https://www.cnblogs.com/z-sm/p/6745375.html
+```
+
