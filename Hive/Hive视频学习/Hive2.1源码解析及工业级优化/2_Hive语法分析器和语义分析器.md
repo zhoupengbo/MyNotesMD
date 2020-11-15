@@ -13,15 +13,15 @@ Hive执行流程图：
 
 #### SQL执行顺序
 
-一个SQL大致分为以下7部分，按顺序执行 
+一个SQL大致分为以下7部分，按顺序执行 ：
 
 - (5)SELECT
-- (6)DISTINCT <select list>
-- (1)FROM <table source>
-- (2)WHERE <condition> 
-- (3)GROUP BY <group by list> 
-- (4)HAVING <having condition> 
-- (7)ORDER BY <order by list>
+- (6)DISTINCT <-select list>
+- (1)FROM <-table source>
+- (2)WHERE <-condition> 
+- (3)GROUP BY <-group by list> 
+- (4)HAVING <-having condition> 
+- (7)ORDER BY <-order by list>
 
 #### Operators对应SQL
 
