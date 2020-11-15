@@ -21,19 +21,16 @@ Hive执行流程图：
 - (2)WHERE <condition> 
 - (3)GROUP BY <group by list> 
 - (4)HAVING <having condition> 
-- (7)ORDER BY <order by list>Operators对应SQL
+- (7)ORDER BY <order by list>
 
-
-
-<img src="./image-20201115192850248.png" alt="image-20201115192850248" style="zoom:30%;" />
-
-
+#### Operators对应SQL
 
 - 每个步骤对应一个逻辑运算符(Operator) 
 - 每个Operator输出一个虚表(VirtualTable)
 - Explain 可查看执行计划
+- 对抗 Join 倾斜最有力的工具就是MapJoin。
+
+<img src="./image-20201115192850248.png" alt="image-20201115192850248" style="zoom:30%;" />
 
 
-
-对抗 Join 倾斜最有力的工具就是MapJoin。
 
