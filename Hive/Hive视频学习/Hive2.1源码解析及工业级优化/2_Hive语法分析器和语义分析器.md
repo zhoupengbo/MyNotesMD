@@ -17,7 +17,6 @@ Hive执行流程图：
 
 - (5)SELECT
 - (6)DISTINCT <select list>
-
 - (1)FROM <table source>
 - (2)WHERE <condition> 
 - (3)GROUP BY <group by list> 
