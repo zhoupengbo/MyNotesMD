@@ -9,7 +9,7 @@ find . -name '*.java' | xargs grep --color 'main(' | awk '{print $1}' | uniq | g
 
 Hive执行流程图：
 
-<img src="/Users/zhoupengbo/IdeaProjects/myhub/MyNotesMD/Hive/Hive视频学习/Hive2.1源码解析及工业级优化/image-20201115194036944.png" alt="流程图" style="zoom:50%;" />
+<img src="./image-20201115194036944.png" alt="流程图" style="zoom:50%;" />
 
 #### SQL执行顺序
 
@@ -25,7 +25,7 @@ Hive执行流程图：
 
 #### Operators对应SQL
 
-![image-20201115192850248](/Users/zhoupengbo/IdeaProjects/myhub/MyNotesMD/Hive/Hive视频学习/Hive2.1源码解析及工业级优化/image-20201115192850248.png)
+![image-20201115192850248](./image-20201115192850248.png)
 
 - 每个步骤对应一个逻辑运算符(Operator) 
 - 每个Operator输出一个虚表(VirtualTable)
