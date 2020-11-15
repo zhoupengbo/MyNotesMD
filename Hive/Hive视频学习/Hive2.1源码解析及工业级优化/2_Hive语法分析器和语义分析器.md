@@ -15,6 +15,8 @@ Hive执行流程图：
 
 一个SQL大致分为以下7部分，按顺序执行 
 
+
+
 - (5)SELECT (6)DISTINCT <select list>
 
 - (1)FROM <table source> 
@@ -23,9 +25,13 @@ Hive执行流程图：
 - (4)HAVING <having condition> 
 - (7) ORDER BY <order by list>
 
+
+
 #### Operators对应SQL
 
 <img src="./image-20201115192850248.png" alt="image-20201115192850248" style="zoom:30%;" />
+
+
 
 - 每个步骤对应一个逻辑运算符(Operator) 
 - 每个Operator输出一个虚表(VirtualTable)
