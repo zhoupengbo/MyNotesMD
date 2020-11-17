@@ -15,4 +15,5 @@
 - Command L 跳转第n行
 - Command Y 删除当前行
 - Shift+F6 变量/类名重命名
+- Command + Shift + F  全局查找
 
