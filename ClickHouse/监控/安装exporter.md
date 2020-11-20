@@ -20,6 +20,71 @@ export CLICKHOUSE_PASSWORD=xxxxx
 nohup ./clickhouse_exporter -scrape_uri=http://localhost:8123/ &
 ```
 
+##### start.sh
+
+```
+#! /bin/bash
+# 启动命令
+nohup xxxx &
+pid=$(ps -ef | grep xxx | grep -v grep | awk '{print $2}')
+if [ $pid ];then
+    echo "status: running; pid: $pid" 
+else 
+    echo "status: not running!"
+fi
+```
+
+##### status.sh
+
+```
+#! /bin/bash
+pid=$(ps -ef | grep xxx | grep -v grep | awk '{print $2}')
+if [ $pid ];then
+    echo "status: running; pid: $pid" 
+else 
+    echo "status: stopped!"
+fi
+```
+
+##### stop.sh
+
+```
+#!/bin/bash
+
+# ps -ef|grep xxx |awk '{print $2}'|xargs kill -9
+pid=$(ps -ef | grep xxx | grep -v grep | awk '{print $2}')
+if [ $pid ];then 
+    kill $pid
+    echo "kill pid: $pid"
+else
+    echo "service is not running!"
+fi
+```
+
+##### restart.sh
+
+```
+#!/bin/bash
+
+# ps -ef|grep xxx |awk '{print $2}'|xargs kill -9
+pid=$(ps -ef | grep xxx | grep -v grep | awk '{print $2}')
+if [ $pid ];then 
+    kill $pid
+    echo "kill pid: $pid"
+else
+    echo "service is not running!"
+fi
+nohup xxxx &
+pid=$(ps -ef | grep xxx | grep -v grep | awk '{print $2}')
+if [ $pid ];then
+    echo "status: running; pid: $pid" 
+else 
+    echo "status: not running!"
+fi
+```
+
+
+
 #### 相关链接
 
 [https://github.com/f1yegor/clickhouse_exporter](https://github.com/f1yegor/clickhouse_exporter/blob/master/Dockerfile)
