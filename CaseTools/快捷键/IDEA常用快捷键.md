@@ -16,4 +16,6 @@
 - Command Y 删除当前行
 - Shift+F6 变量/类名重命名
 - Command + Shift + F  全局查找
+- Command + R 替换
+- Command + Shift + R 全局替换
 
