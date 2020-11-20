@@ -56,8 +56,6 @@ users:
     to_cluster: "distributed-read"
     # 代理用户
     to_user: "readonly"
-    max_concurrent_queries: 6
-    max_execution_time: 1m
     # 给定输入用户的每分钟请求数限制。默认情况下，没有每分钟的限制。
     requests_per_minute: 10
     # 是否拒绝通过HTTP的输入请求。
