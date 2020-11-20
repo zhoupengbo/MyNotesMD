@@ -142,3 +142,13 @@ jstack -l ${pid} > jstack.log
 https://www.cnblogs.com/z-sm/p/6745375.html
 ```
 
+#### 16. Systemctl
+
+```
+systemctl daemon-reload    # 重载系统服务
+systemctl enable *.service # 设置某服务开机启动      
+systemctl start *.service  # 启动某服务  
+systemctl stop *.service   # 停止某服务 
+systemctl reload *.service # 重启某服务
+```
+
