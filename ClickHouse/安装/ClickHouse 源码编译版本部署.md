@@ -84,3 +84,36 @@ vim /etc/init.d/clickhouse-server
 vi /etc/security/limits.d/clickhouse.conf
 ```
 
+#### 卸载
+
+```shell
+# 停止服务
+service clickhouse-server status
+service clickhouse-server stop
+# 备份配置文件
+mkdir /home/clickhouse/config_bak_20201119
+cp /etc/clickhouse-server/*.xml /home/clickhouse/config_bak_20201119
+# 卸载服务端客户端脚本
+rpm -e clickhouse-server-19.17.10.1-2.noarch --nodeps
+rpm -e clickhouse-client-19.17.10.1-2.noarch
+rm -rf /usr/bin/clickhouse*
+rm -rf /etc/security/limits.d/clickhouse.conf
+rm -rf /var/lib/clickhouse
+rm -rf /etc/clickhouse-server/preprocessed
+rm -rf /etc/clickhouse-server/config.d
+rm -rf /etc/clickhouse-server/users.d
+# 下载新包
+cd /home/clickhouse/clickhouse-20.3-lts
+# 安装新版本
+rpm -ivh /home/clickhouse/clickhouse-20.3-lts/clickhouse-common-static-dbg-20.3.21.2-2.x86_64.rpm
+rpm -ivh /home/clickhouse/clickhouse-20.3-lts/clickhouse-common-static-20.3.21.2-2.x86_64.rpm
+rpm -ivh /home/clickhouse/clickhouse-20.3-lts/clickhouse-server-20.3.21.2-2.noarch.rpm
+rpm -ivh /home/clickhouse/clickhouse-20.3-lts/clickhouse-client-20.3.21.2-2.noarch.rpm
+# 修改配置文件(数据目录/用户密码/监听host/hdfsha/prom监控)
+# 启动服务
+service clickhouse-server start
+systemctl start clickhouse-server
+```
+
+
+
