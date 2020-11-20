@@ -22,65 +22,105 @@ nohup ./clickhouse_exporter -scrape_uri=http://localhost:8123/ &
 
 ##### start.sh
 
-```
+```bash
 #! /bin/bash
-# 启动命令
-nohup xxxx &
-pid=$(ps -ef | grep xxx | grep -v grep | awk '{print $2}')
+pid=$(ps -ef | grep clickhouse_exporter | grep -v grep | awk '{print $2}')
 if [ $pid ];then
-    echo "status: running; pid: $pid" 
-else 
-    echo "status: not running!"
+    echo "status: running; pid: $pid"
+else
+    echo "status: stopped!"
 fi
 ```
 
 ##### status.sh
 
-```
+```bash
 #! /bin/bash
-pid=$(ps -ef | grep xxx | grep -v grep | awk '{print $2}')
+pid=$(ps -ef | grep clickhouse_exporter | grep -v grep | awk '{print $2}')
 if [ $pid ];then
-    echo "status: running; pid: $pid" 
-else 
+    echo "status: running; pid: $pid"
+else
+    echo "status: stopped!"
+fi
+[root@ch05 chexporter]# cat status.sh
+#! /bin/bash
+pid=$(ps -ef | grep clickhouse_exporter | grep -v grep | awk '{print $2}')
+if [ $pid ];then
+    echo "status: running; pid: $pid"
+else
     echo "status: stopped!"
 fi
 ```
 
 ##### stop.sh
 
-```
+```bash
 #!/bin/bash
-
-# ps -ef|grep xxx |awk '{print $2}'|xargs kill -9
-pid=$(ps -ef | grep xxx | grep -v grep | awk '{print $2}')
-if [ $pid ];then 
+# ps -ef | grep clickhouse_exporter | grep -v grep | awk '{print $2}' | xargs kill -9
+pid=$(ps -ef | grep clickhouse_exporter | grep -v grep | awk '{print $2}')
+if [ $pid ];then
     kill $pid
     echo "kill pid: $pid"
 else
-    echo "service is not running!"
+    echo "clickhouse_exporter is not running!"
 fi
 ```
 
 ##### restart.sh
 
-```
+```bash
 #!/bin/bash
-
-# ps -ef|grep xxx |awk '{print $2}'|xargs kill -9
-pid=$(ps -ef | grep xxx | grep -v grep | awk '{print $2}')
-if [ $pid ];then 
+# 停止
+pid=$(ps -ef | grep clickhouse_exporter | grep -v grep | awk '{print $2}')
+if [ $pid ];then
     kill $pid
     echo "kill pid: $pid"
 else
-    echo "service is not running!"
+    echo "clickhouse_exporter is not running!"
 fi
-nohup xxxx &
-pid=$(ps -ef | grep xxx | grep -v grep | awk '{print $2}')
+# 启动
+export CLICKHOUSE_USER=readonly
+export CLICKHOUSE_PASSWORD=KDfTLNhK
+nohup /home/data/chexporter/clickhouse_exporter -scrape_uri=http://localhost:8123/ &
+pid=$(ps -ef | grep clickhouse_exporter | grep -v grep | awk '{print $2}')
 if [ $pid ];then
-    echo "status: running; pid: $pid" 
-else 
+    echo "status: running; pid: $pid"
+else
     echo "status: not running!"
 fi
+```
+
+#### 自定义systemctl
+
+##### Vim /etc/systemd/system/clickhouse-exporter.service
+
+```
+[Unit]
+Description=ClickHouse Exporter (analytic DBMS for big data)
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=forking
+User=root
+Group=root
+Restart=always
+RestartSec=30
+ExecStart=/home/data/chexporter/start.sh
+ExecStop=/home/data/chexporter/stop.sh
+LimitCORE=infinity
+LimitNOFILE=500000
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```shell
+systemctl daemon-reload
+systemctl status clickhouse-exporter.service
+systemctl start clickhouse-exporter.service
+systemctl stop clickhouse-exporter.service
+systemctl restart clickhouse-exporter.service
 ```
 
 
