@@ -12,7 +12,7 @@ CREATE TABLE [IF NOT EXISTS] [db.]table_name [ON CLUSTER cluster]
 示例：
 
 ```sql
-CREATE TABLE test.test_mysql_table ( \
+CREATE TABLE IF NOT EXISTS test.test_mysql_table ( \
     `unique_id` Int8, \
     `id` Int16, \
     `name` String \

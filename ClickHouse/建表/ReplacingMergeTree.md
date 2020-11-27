@@ -2,7 +2,7 @@
 
 ```sql
 -- 创建非分区本地表
-CREATE TABLE test_rmt_local(
+CREATE TABLE IF NOT EXISTS test_rmt_local(
   user_id UInt64,
   score String,
   deleted UInt8 DEFAULT 0,
@@ -22,7 +22,7 @@ WITH(
 )AS dict
 SELECT number AS user_id, dict[number%7+1], now() AS create_time FROM numbers(5);
 -- 创建视图
-CREATE VIEW test_rmt_view AS
+CREATE VIEW IF NOT EXISTS test_rmt_view AS
 SELECT
   user_id ,
   argMax(score, create_time) AS score, 
@@ -38,7 +38,7 @@ INSERT INTO TABLE test_rmt_local(user_id,score,create_time) VALUES(0,'AAAA',now(
 -- 模拟删除，以增代删
 INSERT INTO TABLE test_rmt_local(user_id,score,deleted,create_time) VALUES(0,'AAAA',1,now());
 -- 基于视图创建分布式表
-CREATE TABLE test_rmt_all on cluster perftest_2shards_2replicas
+CREATE TABLE IF NOT EXISTS test_rmt_all on cluster perftest_2shards_2replicas
 AS test_rmt_view
 ENGINE = Distributed('perftest_2shards_2replicas', 'default', 'test_rmt_view', rand());
 ```
@@ -47,7 +47,7 @@ ENGINE = Distributed('perftest_2shards_2replicas', 'default', 'test_rmt_view', r
 
 ```sql
 -- 创建非分区本地表
-CREATE TABLE test_rmtp_local(
+CREATE TABLE IF NOT EXISTS test_rmtp_local(
   user_id UInt64,
   score String,
   deleted UInt8,
@@ -74,7 +74,7 @@ WITH(
 )AS dict
 SELECT number AS user_id, dict[number%7+1], '2020-10-25 15:27:42' AS create_time FROM numbers(5);
 -- 创建视图
-CREATE VIEW test_rmtp_view AS
+CREATE VIEW IF NOT EXISTS test_rmtp_view AS
 SELECT
   user_id ,toYYYYMMDD(create_time) as day,
   argMax(score, create_time) AS score, 
@@ -90,7 +90,7 @@ INSERT INTO TABLE test_rmtp_local(user_id,score,create_time) VALUES(0,'AAAAA',no
 -- 模拟删除，以增代删
 INSERT INTO TABLE test_rmtp_local(user_id,score,deleted,create_time) VALUES(0,'AAAA',1,now());
 -- 基于视图创建分布式表
-CREATE TABLE test_rmtp_all on cluster perftest_2shards_2replicas
+CREATE TABLE IF NOT EXISTS test_rmtp_all on cluster perftest_2shards_2replicas
 AS test_rmtp_view
 ENGINE = Distributed('perftest_2shards_2replicas', 'default', 'test_rmtp_view', rand());
 ```

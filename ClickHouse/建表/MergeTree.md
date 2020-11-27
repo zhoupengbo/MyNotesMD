@@ -20,7 +20,7 @@ ORDER BY expr
 示例1：
 
 ```sql
-CREATE TABLE test.table_name on cluster {cluster_name} (
+CREATE TABLE IF NOT EXISTS test.table_name on cluster {cluster_name} (
     `id` Int32, 
     `execution_time` Date, 
     `keeper_code` String
@@ -34,7 +34,7 @@ ORDER BY id -- 主键
 
 ```sql
 -- 单节点创建
-CREATE TABLE test.test_local
+CREATE TABLE IF NOT EXISTS test.test_local
 (
     `FlightDate` Date,
     `Year` UInt16
@@ -44,7 +44,7 @@ PARTITION BY toYYYYMMDD(FlightDate)
 ORDER BY (FlightDate, Year);
 
 -- 分布式创建
-CREATE TABLE test.test_local ON cluster cluster02_no_replicas 
+CREATE TABLE IF NOT EXISTS test.test_local ON cluster cluster02_no_replicas 
 (
     `FlightDate` Date,
     `Year` UInt16
@@ -54,7 +54,7 @@ PARTITION BY toYYYYMMDD(FlightDate)
 ORDER BY (FlightDate, Year);
 
 -- 创建分布式表
-CREATE TABLE test.test_all ON cluster cluster02_no_replicas 
+CREATE TABLE IF NOT EXISTS test.test_all ON cluster cluster02_no_replicas 
 AS test.test_local 
 ENGINE = Distributed(cluster02_no_replicas, test, test_local, rand());
 

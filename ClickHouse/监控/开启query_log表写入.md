@@ -1,3 +1,5 @@
+开启query_thread_log表同query_log表。
+
 #### 第一步：
 
 在/etc/clickhouse-server/config.xml添加以下配置：
@@ -36,5 +38,25 @@
 
 ```
 /?log_queries=1&log_query_threads=1
+```
+
+#### 第三步：
+
+##### 1. 创建分布式表
+
+```sql
+CREATE TABLE IF NOT EXISTS system.query_log_all
+ON CLUSTER cluster_2replicas
+AS system.query_log
+ENGINE = Distributed(cluster_2replicas,system,query_log,rand());
+```
+
+##### 2. 设置生命周期
+
+```sql
+ALTER TABLE system.query_log ON CLUSTER all_nodes MODIFY TTL event_date + INTERVAL 365 DAY;
+ALTER TABLE system.query_thread_log ON CLUSTER all_nodes MODIFY TTL event_date + INTERVAL 30 DAY;
+ALTER TABLE system.trace_log ON CLUSTER all_nodes MODIFY TTL event_date + INTERVAL 30 DAY;
+ALTER TABLE system.metric_log ON CLUSTER all_nodes MODIFY TTL event_date + INTERVAL 365 DAY;
 ```
 

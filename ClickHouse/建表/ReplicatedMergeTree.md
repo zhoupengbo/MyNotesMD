@@ -1,7 +1,7 @@
 ##### 语法：
 
 ```sql
-CREATE TABLE table_name_local on cluster {cluster_name}
+CREATE TABLE IF NOT EXISTS table_name_local on cluster {cluster_name}
 (
     EventDate DateTime,
     CounterID UInt32,
@@ -37,7 +37,7 @@ SETTINGS
 
 ```sql
 -- 创建本地表
-CREATE TABLE test.test_replica_local on cluster cluster01_2replicas
+CREATE TABLE IF NOT EXISTS test.test_replica_local on cluster cluster01_2replicas
 (
     EventDate DateTime,
     CounterID UInt32,
@@ -49,7 +49,7 @@ ORDER BY (CounterID, EventDate, intHash32(UserID))  -- 主键
 SETTINGS index_granularity = 8192 --索引粒度
 
 -- 创建分布式表
-CREATE TABLE test.test_replica_all ON CLUSTER cluster02_no_replicas 
+CREATE TABLE IF NOT EXISTS test.test_replica_all ON CLUSTER cluster02_no_replicas 
 (
   `EventDate` DateTime, 
   `CounterID` UInt32, 
@@ -59,7 +59,7 @@ CREATE TABLE test.test_replica_all ON CLUSTER cluster02_no_replicas
 ENGINE = Distributed('cluster01_2replicas', 'test', 'test_replica_local', rand());
 
 -- 基于本地表创建分布式表
-CREATE TABLE test.test_replica_all ON CLUSTER cluster02_no_replicas 
+CREATE TABLE IF NOT EXISTS test.test_replica_all ON CLUSTER cluster02_no_replicas 
 AS test.test_replica_local
 ENGINE = Distributed(cluster01_2replicas, test, test_replica_local, rand());
 
