@@ -153,7 +153,23 @@ select database, \
        round((sum(data_compressed_bytes) / sum(data_uncompressed_bytes)) * 100.,2) AS "压缩率/%"  \
 from system.parts \
 group by database,table  \
-order by database
+order by database;
+-- 查看表占用空间
+SELECT database, 
+			 table, 
+			 partition, 
+       part_name, 
+       active, 
+       bytes_on_disk 
+FROM system.parts 
+			 where database not in 'system' 
+ORDER BY database, table, partition, name;
+-- 查看库大小
+SELECT database, 
+			 sum(bytes_on_disk) as db_size  
+FROM system.parts   
+GROUP BY database 
+order by db_size desc;
 ```
 
 #### 10. 查看SQL执行计划
@@ -161,4 +177,76 @@ order by database
 ```shell
 clickhouse-client --send_logs_level=trace <<< 'SELECT * FROM hits_v1' > /dev/null
 ```
+
+#### 11. 获取活跃会话
+
+```sql
+SELECT query_id, user, address, elapsed, query FROM system.processes ORDER BY query_id;
+-- 或者
+SHOW PROCESSLIST;
+```
+
+#### 12. 获取 mutation 操作
+
+CH 的 update 和 delete 操作，算 DDL 操作，CH 称为 mutation，而要确定 mutation 队列，可以使用下面的 SQL：
+
+```sql
+SELECT * FROM system.mutations;
+```
+
+#### 13. kill mutation 操作 
+
+```sql
+KILL MUTATION mutation_id = 'trx_id';
+```
+
+#### 14. 正在执行的 SQL 概要 
+
+正在执行的查询总次数、正在发生的合并操作总次数
+
+```sql
+select * from system.metrics limit 5;
+```
+
+#### 15. 累积 SQL 概要 
+
+查看服务运行过程总的查询次数、总的 select 次数
+
+```sql
+select * from system.events limit 5;
+```
+
+#### 16. 正在后台运行的概要信息 
+
+查看当前分配的内存、执行队列中的任务数量等
+
+```sql
+select * from system.asynchronous_metrics limit 5;
+```
+
+#### 17. 检查复制是否异常
+
+```sql
+SELECT database, table, is_leader, total_replicas,active_replicas 
+FROM system.replicas  
+WHERE is_readonly  
+			OR is_session_expired 
+			OR future_parts > 20  
+			OR parts_to_check > 10  
+			OR queue_size > 20 
+			OR inserts_in_queue > 10  
+			OR log_max_index - log_pointer > 10  
+			OR total_replicas < 2  
+			OR active_replicas < total_replicas;
+```
+
+#### 18. SQL 基准测试 
+
+ClickHouse 自带基准测试工具 clickhouse-benchmark，用法如下：
+
+```shell
+echo "select * from testcluster_shard_1.tc_shard_all;" |clickhouse-benchmark -i 5
+```
+
+-i 5 表示 SQL 执行 5 次，会显示 QPS、RPS 及各百分位的查询执行时间。
 

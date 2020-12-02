@@ -55,7 +55,7 @@ select * from test_hdfs_orc;
 # 方式一：
 CREATE TABLE testx (`id` String) ENGINE = MergeTree() ORDER BY (id); -- 创建本地表
 
-insert into testx select * from hdfs('hdfs://xx.xx.xxx.xx:8020/warehouse/tablespace/managed/hive/test.db/test_parquet/*/000000_0','Parquet','id String')
+insert into testx (id) select * from hdfs('hdfs://xx.xx.xxx.xx:8020/warehouse/tablespace/managed/hive/test.db/test_parquet/*/000000_0','Parquet','id String')
  
 # 方式二：
 hdfs dfs -cat hdfs://xx.xx.xxx.xx:8020/warehouse/tablespace/managed/hive/test.db/test_parquet/delta_0000001_0000001_0000/000000_0 | /usr/local/clickhouse/bin/clickhouse client --query="INSERT INTO testx FORMAT Parquet"
