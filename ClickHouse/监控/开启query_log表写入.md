@@ -46,9 +46,9 @@
 
 ```sql
 CREATE TABLE IF NOT EXISTS system.query_log_all
-ON CLUSTER cluster_2replicas
+ON CLUSTER all_nodes
 AS system.query_log
-ENGINE = Distributed(cluster_2replicas,system,query_log,rand());
+ENGINE = Distributed(all_nodes,system,query_log,rand());
 ```
 
 ##### 2. 设置生命周期
