@@ -197,7 +197,7 @@ caches:
     # 当多个具有相同查询的请求同时命中`chproxy`且查询没有缓存的响应时，
     # 则只有一个请求将被代理到clickhouse。其他请求将等待在此宽限期内的缓存响应。
     # 这被称为“防雷群”问题的防护。默认情况下`grace_time`为5秒。负值将使保护免受“雷群”问题的影响。
-    grace_time: 20S
+    grace_time: 20s
   - name: "shortterm"
   	dir: "/path/to/shortterm/cachedir"
     max_size: 100Mb
