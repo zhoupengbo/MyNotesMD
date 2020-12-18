@@ -176,3 +176,10 @@ select type,count(1) from app.user_model where type ='1' or  type ='2' group by 
 ```
 
 理由：通过限制分组前结果集数量，查询性能一般能提示数十倍，甚至上百倍
+
+#### 11. Nullable 少用
+
+```
+性能不太好，而且有的函数还不能在这里用
+```
+
