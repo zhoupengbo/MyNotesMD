@@ -250,3 +250,17 @@ echo "select * from testcluster_shard_1.tc_shard_all;" |clickhouse-benchmark -i 
 
 -i 5 表示 SQL 执行 5 次，会显示 QPS、RPS 及各百分位的查询执行时间。
 
+#### 19. 解析表名
+
+```sql
+select 
+case 
+    when substr(extract(query,'into|INTO.*?\\w+\\.\\w+'),5) != '' then substr(extract(query,'into|INTO.*?\\w+\\.\\w+'),5) 
+	when substr(extract(query,'from|FROM.*?\\w+\\.\\w+'),5) != '' then substr(extract(query,'from|FROM.*?\\w+\\.\\w+'),5) 
+	when substr(extract(query,'EXISTS|TABLE.*?\\w+\\.\\w+'),6) != '' then substr(extract(query,'EXISTS|TABLE.*?\\w+\\.\\w+'),6) 
+	else '无法解析' end as table_name
+from query_log where query_id = '163FA05B3E482568'
+```
+
+
+
