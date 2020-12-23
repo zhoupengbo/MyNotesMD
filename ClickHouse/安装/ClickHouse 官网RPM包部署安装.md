@@ -17,7 +17,7 @@ passwd clickhouse
 ###### 1.2 rpm安装
 
 ```shell
-rpm -ivh clickhouse-common-static-19.17.9.60-2.x86_64.rp
+rpm -ivh clickhouse-common-static-19.17.9.60-2.x86_64.rpm
 rpm -ivh clickhouse-server-19.17.9.60-2.noarch.rpm
 rpm -ivh clickhouse-client-19.17.9.60-2.noarch.rpm
 ```
