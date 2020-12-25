@@ -55,3 +55,39 @@ Caused by: org.apache.solr.common.SolrException: Cannot connect to cluster at lo
 	... 102 more
 ```
 
+解决办法：
+
+不要用sudo启动，root用户启动，solr 直接退出。但是HBase 自带zookeeper启动不用root用户又启动不起来，就矛盾了。于是修改solr强制启动，尽管是root。
+
+```python
+# vim atlas_config.py 添加-force参数
+def run_solr(dir, action, zk_url = None, port = None, logdir = None, wait=True):
+
+    solrScript = "solr"
+
+    if IS_WINDOWS:
+        solrScript = "solr.cmd"
+
+    if zk_url is None:
+        if port is None:
+            cmd = [os.path.join(dir, solrScript), action]
+        else:
+            cmd = [os.path.join(dir, solrScript), action, '-p', str(port)]
+    else:
+        if port is None:
+            cmd = [os.path.join(dir, solrScript), action, '-z', zk_url]
+        else:
+            cmd = [os.path.join(dir, solrScript), action, '-z', zk_url, '-p', port, '-force']
+    return runProcess(cmd, logdir, False, wait)
+  
+def create_solr_collection(dir, confdir, index, logdir = None, wait=True):
+    solrScript = "solr"
+
+    if IS_WINDOWS:
+        solrScript = "solr.cmd"
+
+    cmd = [os.path.join(dir, solrScript), 'create', '-c', index, '-d', confdir,  '-shards',  solrShards(),  '-replicationFactor', solrReplicationFactor(), '-force']
+
+    return runProcess(cmd, logdir, False, wait)
+```
+
