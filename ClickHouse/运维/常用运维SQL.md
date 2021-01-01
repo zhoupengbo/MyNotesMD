@@ -254,11 +254,23 @@ echo "select * from testcluster_shard_1.tc_shard_all;" |clickhouse-benchmark -i 
 
 ```sql
 select 
-case 
-    when substr(extract(query,'into|INTO.*?\\w+\\.\\w+'),5) != '' then substr(extract(query,'into|INTO.*?\\w+\\.\\w+'),5) 
-	when substr(extract(query,'from|FROM.*?\\w+\\.\\w+'),5) != '' then substr(extract(query,'from|FROM.*?\\w+\\.\\w+'),5) 
-	when substr(extract(query,'EXISTS|TABLE.*?\\w+\\.\\w+'),6) != '' then substr(extract(query,'EXISTS|TABLE.*?\\w+\\.\\w+'),6) 
-	else '无法解析' end as table_name
+    case when extract(replaceAll(query,'`',''), 'into\\s+(\\w+\\.\\w+)')   != '' 
+    		 then extract(replaceAll(query,'`',''), 'into\\s+(\\w+\\.\\w+)')
+         when extract(replaceAll(query,'`',''), 'INTO\\s+(\\w+\\.\\w+)')   != '' 
+    		 then extract(replaceAll(query,'`',''), 'INTO\\s+(\\w+\\.\\w+)')
+         when extract(replaceAll(query,'`',''), 'from\\s+(\\w+\\.\\w+)')   != '' 
+         then extract(replaceAll(query,'`',''), 'from\\s+(\\w+\\.\\w+)')
+         when extract(replaceAll(query,'`',''), 'FROM\\s+(\\w+\\.\\w+)')   != '' 
+         then extract(replaceAll(query,'`',''), 'FROM\\s+(\\w+\\.\\w+)')
+         when extract(replaceAll(query,'`',''), 'exists\\s+(\\w+\\.\\w+)') != '' 
+         then extract(replaceAll(query,'`',''), 'exists\\s+(\\w+\\.\\w+)')
+         when extract(replaceAll(query,'`',''), 'EXISTS\\s+(\\w+\\.\\w+)') != '' 
+         then extract(replaceAll(query,'`',''), 'EXISTS\\s+(\\w+\\.\\w+)')
+         when extract(replaceAll(query,'`',''), 'table\\s+(\\w+\\.\\w+)')  != '' 
+         then extract(replaceAll(query,'`',''), 'table\\s+(\\w+\\.\\w+)')
+         when extract(replaceAll(query,'`',''), 'TABLE\\s+(\\w+\\.\\w+)')  != '' 
+         then extract(replaceAll(query,'`',''), 'TABLE\\s+(\\w+\\.\\w+)')
+         else '无法解析' end as table_name, 
 from query_log where query_id = '163FA05B3E482568'
 ```
 
