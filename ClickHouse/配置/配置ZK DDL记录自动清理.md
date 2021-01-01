@@ -1,4 +1,4 @@
-##### 修改配置文件 config.xml
+##### d修改配置文件 config.xml
 
 ```xml
 <distributed_ddl>
