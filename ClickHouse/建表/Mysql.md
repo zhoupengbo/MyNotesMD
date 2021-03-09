@@ -19,3 +19,22 @@ CREATE TABLE IF NOT EXISTS test.test_mysql_table ( \
 ) ENGINE = MySQL('xx.xx.xx.xx:port', 'test', 'test', 'zhou', 'zhou123');
 ```
 
+数据库映射：
+
+```sql
+CREATE DATABASE [IF NOT EXISTS] db_name [ON CLUSTER cluster]
+ENGINE = MySQL('host:port', ['database' | database], 'user', 'password')
+```
+
+基于mysql表创建clickhouse表：
+
+```sql
+CREATE TABLE tb1
+ENGINE = MergeTree
+PARTITION BY toYYYYMM(pay_time)
+ORDER BY pay_time AS
+SELECT *
+FROM mysql('127.0.0.1:3306', 'yayun', 'tb1', 'ch_repl', '123') 
+limit 1
+```
+
