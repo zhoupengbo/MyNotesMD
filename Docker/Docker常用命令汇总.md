@@ -1,4 +1,4 @@
-#### 1. 搜索镜像
+#### 			1. 搜索镜像
 
 ```powershell
 docker search `关键词`
@@ -14,6 +14,7 @@ docker pull `镜像名`
 
 ```shell
 docker run -d -p xxxx
+docker run -it -d -p 8888:80 --name="nginx-test" nginx
 ```
 
 #### 4. 查看容器
@@ -38,5 +39,17 @@ docker cp `容器id`:`文件路径` `本地路径`
 
 ```shell
 docker stop `容器id`
+```
+
+#### 8. 删除镜像
+
+```shell
+docker rmi `镜像ID
+```
+
+#### 9. 删除容器
+
+```shell
+docker rm `容器id`
 ```
 
